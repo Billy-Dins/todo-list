@@ -1,6 +1,6 @@
-# todo-list
+# Todo-list
 
-# LOGIC
+## LOGIC
 1. function that puts DOM elements in a variable, then runs the 'todo' create object function with input variables.
 
 2. factory function that creates 'todo' objects.
@@ -19,7 +19,7 @@
 5. Nav sidebar should include "Home", "Today", "Week", "Projects" tabs that sort tasks.
     - Sidebar projects run a function that sort the 'todo' objects array by requested value and render them onto the web page.
 
-# DOM
+## DOM
 
 1. Include Header which simply displays Todo List.
 2. Nav sidebar which includes all projects.

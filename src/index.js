@@ -1,50 +1,71 @@
 import './style.css';
 
+import { endOfWeek, startOfWeek } from 'date-fns'
+
 const todoItems = [{}];
 const mainContent = document.querySelector('.main')
+
+const todaysDate = function() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${day}-${month}-${year}`
+};
+
+const getEndOfWeek = function() {
+    let date = endOfWeek(new Date());
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${day}-${month}-${year}`
+};
+
+const getStartOfWeek = function() {
+    let date = startOfWeek(new Date());
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${day}-${month}-${year}`
+};
 
 const createTodoItem = function(title, description, dueDate, priority, project) {
     return { title, description, dueDate, priority, project };
 };
 
 const pushtoArray = function(newItem) {
-    checkObjectProject(newItem);
     todoItems.push(newItem);
     };
-
 
 // Primary called function that creates an object and assigns DOM
 // objects to it.
 const getItemValues = function() {
     const title = 'Laundry'
     const description = 'fill up laundry bag, add laundry sauce then go down stairs, put it in the laundry machine and wash.'
-    const dueDate = 'Today'
+    const dueDate = '25-1-2023'
     const priority = 'Low'
     const project = 'Chillin'
     const newItem = createTodoItem(title, description, dueDate, priority, project);
     pushtoArray(newItem)
 };
-// Checks if newly created object has a 'project' value that matches
-// pre-existing projects.
+// filters array for items that are due today.
+const filterItemToday = function() {
+    const filteredArray = todoItems.filter(item => item.dueDate === todaysDate());
+}
+// Hello future Luke, this isn't working because the date isn't a number but 3 seperate
+// numbers divided by ' - '. Good luck.
+const filterItemWeek = function() {
+    const filteredArray = todoItems.filter(item => getStartOfWeek() < item.dueDate < getEndOfWeek());
+    console.log(filteredArray);
+}
 
-/* This might be easier with an array sort method instead of a for loop. */
-const checkObjectProject = function(newItem) {
-    for (let i = 0; i < todoItems.length; i++) {
-        if (newItem.project === todoItems[i].project) {
-            const oldProject = document.querySelector(`.${newItem.project}`)
-            const newTodoItem = document.createElement('div');
-            newTodoItem.textContent = newItem.title;
-            oldProject.appendChild(newTodoItem);
-        } else {
-            const newProject = document.createElement('div');
-            newProject.classList.add(newItem.project);
-            const newTodoItem = document.createElement('div');
-            newTodoItem.textContent = newItem.title;
-            newProject.appendChild(newTodoItem);
-            mainContent.appendChild(newProject);
-        }
-    }
-};
 getItemValues();
-getItemValues();
-todoItems
+filterItemWeek();
+
+// DOM //
+const datePicker = document.createElement('input');
+datePicker.type = 'date'
+mainContent.appendChild(datePicker);
+datePicker.addEventListener('change', () => {
+    console.log(datePicker.value);
+})

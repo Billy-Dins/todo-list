@@ -1,5 +1,3 @@
-# Todo-list
-
 ## LOGIC
 1. function that puts DOM elements in a variable, then runs the 'todo' create object function with input variables.
 

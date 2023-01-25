@@ -1,9 +1,21 @@
 import './style.css';
 
-import { endOfWeek, startOfWeek } from 'date-fns'
+import { endOfWeek, startOfWeek, isThisWeek, parseISO } from 'date-fns'
 
-const todoItems = [{}];
+// DOM //
 const mainContent = document.querySelector('.main')
+
+const datePicker = document.createElement('input');
+datePicker.type = 'date'
+mainContent.appendChild(datePicker);
+datePicker.addEventListener('change', () => {
+    getItemValues();
+    console.log(todoItems)
+    filterItemWeek()
+})
+
+// LOGIC //
+const todoItems = [];
 
 const todaysDate = function() {
     let date = new Date();
@@ -42,7 +54,7 @@ const pushtoArray = function(newItem) {
 const getItemValues = function() {
     const title = 'Laundry'
     const description = 'fill up laundry bag, add laundry sauce then go down stairs, put it in the laundry machine and wash.'
-    const dueDate = '25-1-2023'
+    const dueDate = datePicker.value
     const priority = 'Low'
     const project = 'Chillin'
     const newItem = createTodoItem(title, description, dueDate, priority, project);
@@ -52,20 +64,17 @@ const getItemValues = function() {
 const filterItemToday = function() {
     const filteredArray = todoItems.filter(item => item.dueDate === todaysDate());
 }
-// Hello future Luke, this isn't working because the date isn't a number but 3 seperate
-// numbers divided by ' - '. Good luck.
+
 const filterItemWeek = function() {
-    const filteredArray = todoItems.filter(item => getStartOfWeek() < item.dueDate < getEndOfWeek());
-    console.log(filteredArray);
+    let filteredArray = []
+    for (let i = 0; i < todoItems.length; i++) {
+        if (isThisWeek(parseISO(todoItems[i].dueDate))) {
+            filteredArray.push(todoItems[i]);
+            console.log(filteredArray)
+        }
+    }
 }
 
+console.log(todoItems)
 getItemValues();
 filterItemWeek();
-
-// DOM //
-const datePicker = document.createElement('input');
-datePicker.type = 'date'
-mainContent.appendChild(datePicker);
-datePicker.addEventListener('change', () => {
-    console.log(datePicker.value);
-})

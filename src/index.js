@@ -1,4 +1,5 @@
 import './style.css';
+import './style.scss';
 
 import { endOfWeek, startOfWeek, isThisWeek, parseISO } from 'date-fns'
 
@@ -8,7 +9,6 @@ const mainContent = document.querySelector('.main')
 const datePicker = document.createElement('input');
 datePicker.type = 'date'
 mainContent.appendChild(datePicker);
-
 
 // LOGIC //
 let todoItems = [];
@@ -53,25 +53,33 @@ const DueThisWeek = function() {
         }
     }
 };
-// loops through all items currently in the 'todoItems' array and determines if
-// the item shares a common name with other projects then groups them into their
-// own arrays.
-function groupBy(objectArray, property) {
-    return objectArray.reduce((acc, obj) => {
-       const key = obj[property];
-       if (!acc[key]) {
-          acc[key] = [];
+// looks at all items currently in the selected array and determines if
+// the item shares a common key with other items then returns them as grouped
+// objects within an array
+const groupBy = function(array, key) {
+    return array.reduce((acc, currentValue) => {
+       const groupedKeys = currentValue[key];
+       if (!acc[groupedKeys]) {
+          acc[groupedKeys] = [];
        }
        // Add object to list for given key's value
-       acc[key].push(obj);
+       acc[groupedKeys].push(currentValue);
        return acc;
     }, {});
- }
+ };
+ // render requested contents onto webpage function
 
- getItemValues('27-1-2023', 'Not chillin')
- getItemValues('27-1-2023', 'Not chillin')
- getItemValues('27-1-2023', 'Not chillin')
- getItemValues('27-1-2023', 'Chillin')
+ const render = function(array, todoItem, location) {
+    const selectedTodo = array[todoItem]
+    const parentContent = document.createElement('div');
+    parentContent.classList.add(parseInt(selectedTodo));
 
- const groupedProjects = groupBy(todoItems, 'project')
-console.log(groupedProjects);
+    const childContent = document.createElement('div');
+    childContent.classList.add(selectedTodo[title]);
+    childContent.textContent = parseInt(selectedTodo[title]);
+    parentContent.appendChild(childContent);
+
+    location.appendChild(parentContent);
+ };
+// Need to add items to the todoItems array before this will work
+ render(groupBy, 0, mainContent)

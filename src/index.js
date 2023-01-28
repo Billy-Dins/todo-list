@@ -1,13 +1,26 @@
 import './style.css';
 import './style.scss';
 
-import render from './DOM/render.js'
-import homeLoad from './DOM/webpage.js'
+import { render, dueToday, displayObject } from './DOM/render.js'
+import { removeContent } from './DOM/webpage.js'
 
-import { todoItems, createTodoItem, todaysDate, dueToday, DueThisWeek, groupBy } from './logic.js'
+import { createTodoItem } from './logic.js'
 
 createTodoItem.getItemValues('Laundry', '28-1-2023', 'Chillin')
-createTodoItem.getItemValues('Dishes', '28-1-2023', 'Chillin')
-createTodoItem.getItemValues('Dishes', '28-1-2023', 'Not chillin')
+createTodoItem.getItemValues('Dishes', '30-1-2023', 'Chillin')
+createTodoItem.getItemValues('Dishes', '1-2-2023', 'Not chillin')
 
-homeLoad();
+render();
+
+const homeButton = document.getElementById('home-btn');
+homeButton.addEventListener('click', () => {
+    removeContent();
+    render();
+});
+
+const todayButton = document.getElementById('today-btn');
+todayButton.addEventListener('click', () => {
+    removeContent();
+    const todayArray = dueToday();
+    displayObject(todayArray);
+});

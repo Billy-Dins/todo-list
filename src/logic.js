@@ -52,14 +52,17 @@ const DueThisWeek = function() {
 // looks at all items currently in the selected array and determines if
 // the item shares a common key with other items then returns them as grouped
 // objects within an array
-const groupBy = function(key) {
+const groupBy = function(object) {
     return todoItems.reduce((acc, currentValue) => {
-       const groupedKeys = currentValue[key];
-       if (!acc[groupedKeys]) {
-          acc[groupedKeys] = [];
+        console.log(`acc is ${acc}`)
+        console.log(`currentValue is ${currentValue}`)
+       const selectedValue = currentValue[object];
+       console.log(`selectedValue is ${selectedValue}`)
+       if (!acc[selectedValue]) {
+          acc[selectedValue] = [];
        }
        // Add object to list for given key's value
-       acc[groupedKeys].push(currentValue);
+       acc[selectedValue].push(currentValue);
        return acc;
     }, {});
  };

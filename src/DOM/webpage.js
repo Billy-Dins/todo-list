@@ -1,17 +1,11 @@
-import { todoItems, groupBy } from "../logic";
-import render from "./render.js";
+import { render, dueToday } from "./render.js";
 
-const homeLoad = function () {
-    const mainContent = document.querySelector('.main');
-    const homeButton = document.getElementById('home-btn');
-    homeButton.addEventListener('click', function() {
-        for (let i = 0; i <= mainContent.childElementCount; i++) {
-            if (mainContent.firstChild !== null) {
-            mainContent.firstChild.remove();
-            }
-        };
-        render('project', 'Chillin');
-    })
+const mainContent = document.querySelector('.main');
+
+const removeContent = function () {
+    for (let i = mainContent.childElementCount; i > 0; i--) {
+        mainContent.firstChild.remove();
+    };
 };
 
-export default homeLoad;
+export { removeContent }

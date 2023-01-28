@@ -1,8 +1,9 @@
+import { isThisWeek, parseISO } from 'date-fns'
+
 import { groupBy, todoItems } from '../logic.js'
 
 // render selected project & its todos onto webpage
-const render = function(key, value) {
-    const groupedProjects = groupBy(key)[value];
+const displayObject = function(groupedProjects) {
     const mainContent = document.querySelector('.main')
     for (let i = 0; i < groupedProjects.length; i++) {
         const projectValue = document.createElement('div');
@@ -18,7 +19,37 @@ const render = function(key, value) {
         projectPriority.textContent = `Priority is ${groupedProjects[i].priority}`
         projectValue.append(projectTitle, projectDescription, projectDueDate, projectPriority);
         mainContent.appendChild(projectValue);
+    };
+};
+// checks if there is a displayed key 
+const render = function(key, value) {
+    if (key && value) {
+        const groupedProjects = groupBy(key)[value];
+        displayObject(groupedProjects)
+    } else {
+        const groupedProjects = JSON.parse(localStorage.getItem("to do items"))
+        displayObject(groupedProjects)
     }
 };
+const todaysDate = function() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${day}-${month}-${year}`
+};
 
-export default render
+const dueToday = function() {
+    return todoItems.filter(item => item.dueDate === todaysDate());
+};
+
+const DueThisWeek = function() {
+    let dueWeekArray = []
+    for (let i = 0; i < todoItems.length; i++) {
+        if (isThisWeek(parseISO(todoItems[i].dueDate))) {
+            dueWeekArray.push(todoItems[i]);
+        }
+    }
+    return dueWeekArray;
+};
+export { render, dueToday, DueThisWeek, displayObject }

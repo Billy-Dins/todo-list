@@ -1,5 +1,46 @@
-$body-bg-color: steelblue;
+$header-bg-color: steelblue;
+$nav-bg-color: aliceblue;
 
 body {
-  background-color: $body-bg-color;
+  height: 100vh;
+  margin: 0px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 10fr; 
+}
+ul {
+  list-style-position: inside;
+}
+li {
+  
+  list-style: none;
+}
+button {
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+header {
+  background-color: $header-bg-color;
+  grid-column: 1/3;
+  grid-row: 1/2;
+  position: relative;
+  padding-top: 2%;
+  padding-left: 4%;
+  font-size: 4rem;
+}
+nav {
+  padding: 5%;
+  background-color: $nav-bg-color;
+}
+main {
+  padding: 5%;
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+.todo-item {
+  margin-bottom: 2%;
+  padding: 2%;
+  border: 1px solid black;
 }

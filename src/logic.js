@@ -7,6 +7,7 @@ const createTodoItem = {
 
     pushtoArray: function(newItem) {
         todoItems.push(newItem);
+        localStorage.setItem("to do items", JSON.stringify(todoItems));
     },
 
     todoItemFactory: function(title, description, dueDate, priority, project) {
@@ -15,8 +16,8 @@ const createTodoItem = {
 
     // Primary called function that creates an object and assigns DOM
     // objects to it.
-    getItemValues: function(calendarSelection, projectTitle) {
-        const title = 'Laundry'
+    getItemValues: function(objectTitle, calendarSelection, projectTitle) {
+        const title = objectTitle
         const description = 'fill up laundry bag, add laundry sauce then go down stairs, put it in the laundry machine and wash.'
         const dueDate = calendarSelection
         const priority = 'low'

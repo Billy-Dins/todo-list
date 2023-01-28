@@ -10,6 +10,25 @@ const datePicker = document.createElement('input');
 datePicker.type = 'date'
 mainContent.appendChild(datePicker);
 
+ // render requested contents onto webpage
+ const render = function(keyValue) {
+    const groupedProjects = groupBy('project')[keyValue];
+    for (let i = 0; i < groupedProjects.length; i++) {
+        const projectValue = document.createElement('div');
+        projectValue.id = `project-value-${i}`
+        const projectTitle = document.createElement('div');
+        projectTitle.textContent = `${groupedProjects[i].title}`
+        const projectDescription = document.createElement('div');
+        projectDescription.textContent = `${groupedProjects[i].description}`
+        const projectDueDate = document.createElement('div');
+        projectDueDate.textContent = `Project is due: ${groupedProjects[i].dueDate}`
+        const projectPriority = document.createElement('div');
+        projectPriority.textContent = `Priority is ${groupedProjects[i].priority}`
+        projectValue.append(projectTitle, projectDescription, projectDueDate, projectPriority);
+        mainContent.appendChild(projectValue);
+    }
+ };
+
 // LOGIC //
 let todoItems = [];
 
@@ -35,7 +54,7 @@ const getItemValues = function(calendarSelection, projectTitle) {
     const title = 'Laundry'
     const description = 'fill up laundry bag, add laundry sauce then go down stairs, put it in the laundry machine and wash.'
     const dueDate = calendarSelection
-    const priority = 'Low'
+    const priority = 'low'
     const project = projectTitle
     const newItem = createTodoItem(title, description, dueDate, priority, project);
     pushtoArray(newItem)
@@ -56,8 +75,8 @@ const DueThisWeek = function() {
 // looks at all items currently in the selected array and determines if
 // the item shares a common key with other items then returns them as grouped
 // objects within an array
-const groupBy = function(array, key) {
-    return array.reduce((acc, currentValue) => {
+const groupBy = function(key) {
+    return todoItems.reduce((acc, currentValue) => {
        const groupedKeys = currentValue[key];
        if (!acc[groupedKeys]) {
           acc[groupedKeys] = [];
@@ -67,19 +86,12 @@ const groupBy = function(array, key) {
        return acc;
     }, {});
  };
- // render requested contents onto webpage function
 
- const render = function(array, todoItem, location) {
-    const selectedTodo = array[todoItem]
-    const parentContent = document.createElement('div');
-    parentContent.classList.add(parseInt(selectedTodo));
-
-    const childContent = document.createElement('div');
-    childContent.classList.add(selectedTodo[title]);
-    childContent.textContent = parseInt(selectedTodo[title]);
-    parentContent.appendChild(childContent);
-
-    location.appendChild(parentContent);
- };
-// Need to add items to the todoItems array before this will work
- render(groupBy, 0, mainContent)
+ getItemValues('27-1-2023', 'Chillin')
+ getItemValues('28-1-2023', 'Not chillin')
+ getItemValues('29-1-2023', 'Chillin')
+ getItemValues('27-1-2023', 'Chillin')
+ getItemValues('28-1-2023', 'Not chillin')
+ getItemValues('29-1-2023', 'Chillin')
+ 
+ render('Chillin');

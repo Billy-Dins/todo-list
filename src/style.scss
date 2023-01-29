@@ -33,6 +33,11 @@ nav {
   padding: 5% 0 5% 5%;
   background-color: $nav-bg-color;
 }
+#nav-projects {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
 main {
   padding: 5%;
   grid-column: 2/3;

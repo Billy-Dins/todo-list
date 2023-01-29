@@ -23,11 +23,8 @@ const getItemValues = function(objectTitle, calendarSelection, projectTitle) {
 // the item shares a common key with other items then returns them as grouped
 // objects within an array
 const groupBy = function(object) {
-    return todoItems.reduce((acc, currentValue) => {
-        console.log(`acc is ${acc}`)
-        console.log(`currentValue is ${currentValue}`)
+    return JSON.parse(localStorage.getItem("to do items")).reduce((acc, currentValue) => {
        const selectedValue = currentValue[object];
-       console.log(`selectedValue is ${selectedValue}`)
        if (!acc[selectedValue]) {
           acc[selectedValue] = [];
        }

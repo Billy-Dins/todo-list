@@ -6,4 +6,4 @@ const removeContent = function () {
     };
 };
 
-export { removeContent }
+export default removeContent

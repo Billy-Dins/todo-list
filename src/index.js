@@ -1,7 +1,8 @@
 import './style.scss';
 
 import { render, dueToday, dueThisWeek, displayObject } from './DOM/render.js'
-import { removeContent } from './DOM/remove.js'
+import removeContent from './DOM/remove.js'
+import { newProject, navProjects } from './DOM/newProject.js'
 
 import { getItemValues } from './logic.js'
 
@@ -12,6 +13,7 @@ getItemValues('Dishes', "30-1-2023", 'Chillin')
 getItemValues('Dishes', "31-1-2023", 'Not chillin')
 getItemValues('Dishes', "1-2-2023", 'Not chillin')
 
+navProjects();
 render();
 
 const homeButton = document.getElementById('home-btn');
@@ -33,3 +35,7 @@ weekButton.addEventListener('click', () => {
     const weekArray = dueThisWeek();
     displayObject(weekArray);
 });
+const addProject = document.getElementById('project-btn');
+addProject.addEventListener('click', () => {
+    newProject();
+})

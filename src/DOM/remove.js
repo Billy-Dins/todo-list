@@ -1,5 +1,3 @@
-import { render, dueToday } from "./render.js";
-
 const mainContent = document.querySelector('.main');
 
 const removeContent = function () {

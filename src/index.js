@@ -2,13 +2,13 @@ import './style.css';
 import './style.scss';
 
 import { render, dueToday, displayObject } from './DOM/render.js'
-import { removeContent } from './DOM/webpage.js'
+import { removeContent } from './DOM/remove.js'
 
-import { createTodoItem } from './logic.js'
+import { getItemValues } from './logic.js'
 
-createTodoItem.getItemValues('Laundry', '28-1-2023', 'Chillin')
-createTodoItem.getItemValues('Dishes', '30-1-2023', 'Chillin')
-createTodoItem.getItemValues('Dishes', '1-2-2023', 'Not chillin')
+getItemValues('Laundry', '28-1-2023', 'Chillin')
+getItemValues('Dishes', '30-1-2023', 'Chillin')
+getItemValues('Dishes', '1-2-2023', 'Not chillin')
 
 render();
 

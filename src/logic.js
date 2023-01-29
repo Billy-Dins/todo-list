@@ -1,15 +1,12 @@
 let todoItems = [];
 
-
 const pushtoArray = function(newItem) {
     todoItems.push(newItem);
     localStorage.setItem("to do items", JSON.stringify(todoItems));
-},
-
+}
 const todoItemFactory = function(title, description, dueDate, priority, project) {
     return { title, description, dueDate, priority, project };
-},
-
+}
 // Primary called function that creates an object and assigns DOM
 // objects to it.
 const getItemValues = function(objectTitle, calendarSelection, projectTitle) {
@@ -18,10 +15,9 @@ const getItemValues = function(objectTitle, calendarSelection, projectTitle) {
     const dueDate = calendarSelection
     const priority = 'low'
     const project = projectTitle
-    const newItem = createTodoItem.todoItemFactory(title, description, dueDate, priority, project);
-    createTodoItem.pushtoArray(newItem)
+    const newItem = todoItemFactory(title, description, dueDate, priority, project);
+    pushtoArray(newItem)
 }
-
 
 // looks at all items currently in the selected array and determines if
 // the item shares a common key with other items then returns them as grouped

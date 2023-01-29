@@ -12,7 +12,6 @@ ul {
   list-style-position: inside;
 }
 li {
-  
   list-style: none;
 }
 button {
@@ -31,7 +30,7 @@ header {
   font-size: 4rem;
 }
 nav {
-  padding: 5%;
+  padding: 5% 0 5% 5%;
   background-color: $nav-bg-color;
 }
 main {

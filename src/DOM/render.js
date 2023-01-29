@@ -1,4 +1,4 @@
-import { isThisWeek, parseISO, parse, isSameWeek  } from 'date-fns'
+import { isThisWeek, parse, } from 'date-fns'
 
 import { groupBy, todoItems } from '../logic.js'
 
@@ -47,7 +47,7 @@ const dueThisWeek = function() {
     let dueWeekArray = []
     for (let i = 0; i < todoItems.length; i++) {
         let newDate = todoItems[i].dueDate;
-        if (isSameWeek(parse(newDate, 'dd-m-yyyy', new Date()), new Date())) {
+        if (isThisWeek(parse(newDate, 'dd-mm-yyyy', new Date()))) {
             dueWeekArray.push(todoItems[i]);
         }
     }

@@ -1,7 +1,5 @@
 import './style.scss';
 
-import { format, isThisWeek, parseISO, parse, getDate, getDay } from 'date-fns'
-
 import { render, dueToday, dueThisWeek, displayObject } from './DOM/render.js'
 import { removeContent } from './DOM/remove.js'
 

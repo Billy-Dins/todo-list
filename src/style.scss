@@ -5,7 +5,7 @@ body {
   height: 100vh;
   margin: 0px;
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 2fr 3fr;
   grid-template-rows: 1fr 10fr; 
 }
 ul {
@@ -33,10 +33,31 @@ nav {
   padding: 5% 0 5% 5%;
   background-color: $nav-bg-color;
 }
-#nav-projects {
+#nav-projects-parent {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+}
+.nav-project {
+  padding: 2px;
+}
+.new-todo-item {
+  margin: 1px;
+}
+#new-project-form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+#add-todo-title-input {
+
+}
+#add-todo-description-input {
+
+}
+#add-todo-btn {
+  background-color: steelblue;
+  border-radius: 2px;
 }
 main {
   padding: 5%;

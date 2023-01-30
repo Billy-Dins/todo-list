@@ -1,20 +1,11 @@
 import './style.scss';
 
-import { render, dueToday, dueThisWeek, displayObject } from './DOM/render.js'
+import { render, dueToday, dueThisWeek, displayTask } from './DOM/render.js'
 import removeContent from './DOM/remove.js'
-import { newProject, navProjects } from './DOM/newProject.js'
+import { createTodo, navProjects } from './DOM/navProjects.js'
 
-import { getItemValues } from './logic.js'
-
-
-getItemValues('Laundry', "28-1-2023", 'Chillin')
-getItemValues('Laundry', "29-1-2023", 'Chillin')
-getItemValues('Dishes', "30-1-2023", 'Chillin')
-getItemValues('Dishes', "31-1-2023", 'Not chillin')
-getItemValues('Dishes', "1-2-2023", 'Not chillin')
-
-navProjects();
 render();
+navProjects();
 
 const homeButton = document.getElementById('home-btn');
 homeButton.addEventListener('click', () => {
@@ -26,16 +17,16 @@ const todayButton = document.getElementById('today-btn');
 todayButton.addEventListener('click', () => {
     removeContent();
     const todayArray = dueToday();
-    displayObject(todayArray);
+    displayTask(todayArray);
 });
 
 const weekButton = document.getElementById('week-btn');
 weekButton.addEventListener('click', () => {
     removeContent();
     const weekArray = dueThisWeek();
-    displayObject(weekArray);
+    displayTask(weekArray);
 });
 const addProject = document.getElementById('project-btn');
 addProject.addEventListener('click', () => {
-    newProject();
+    createTodo();
 })

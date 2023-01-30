@@ -2,10 +2,10 @@ import './style.scss';
 
 import { render, dueToday, dueThisWeek, displayTask } from './DOM/render.js'
 import removeContent from './DOM/remove.js'
-import { createTodo, navProjects } from './DOM/navProjects.js'
+import { createNewProject, renderNavProjects } from './DOM/navProjects.js'
 
 render();
-navProjects();
+renderNavProjects(); 
 
 const homeButton = document.getElementById('home-btn');
 homeButton.addEventListener('click', () => {
@@ -28,5 +28,5 @@ weekButton.addEventListener('click', () => {
 });
 const addProject = document.getElementById('project-btn');
 addProject.addEventListener('click', () => {
-    createTodo();
+    createNewProject();
 })

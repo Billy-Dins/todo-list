@@ -5,25 +5,37 @@ import removeContent from "../DOM/remove.js"
 const parentProjects = document.getElementById('nav-projects-parent')
 const newTaskContent = document.getElementById('new-task-content')
 
-const navProjects = function() {
-    const mainContent = document.querySelector('main')
-    if (mainContent.firstChild !== null) {
-        const allProjects = groupBy('project')
-        const numProjects = Object.keys(allProjects).length
-        for (let i = 0; i < numProjects; i++) {
-            const project = document.createElement('button');
-            project.addEventListener('click', () => {
-                removeContent();
-                render('project', `${Object.keys(allProjects)[i]}`)
-            });
-            project.classList.add('nav-project')
-            project.textContent = `${Object.keys(allProjects)[i]}`;
-            parentProjects.appendChild(project);
+const projectsList = []
+
+const saveToLocalStorage = function() {
+    localStorage.setItem('todoProjects', JSON.stringify(projectsList))
+    console.log(JSON.parse(localStorage.getItem('todoProjects')));
+}
+
+const removeNavProjects = function() {
+    for (let i = 0; i < projectsList.length; i++) {
+        if (parentProjects.hasChildNodes() === true) {
+            parentProjects.firstChild.remove();
         }
-    };
+    }
+}
+
+const renderNavProjects = function() {
+    console.log(projectsList)
+    removeNavProjects();
+    const numProjects = projectsList.length
+    for (let i = 0; i < numProjects; i++) {
+        const project = document.createElement('button');
+        project.addEventListener('click', () => {
+            console.log('hello')
+        });
+        project.classList.add('nav-project')
+        project.textContent = `${projectsList[i].title}`;
+        parentProjects.appendChild(project);
+    }
 };
 
-const createTodo = function() {
+const createNewProject = function() {
     if (newTaskContent.hasChildNodes() === false) {
         const newProjectForm = document.createElement('form');
         newProjectForm.id = 'new-project-form';
@@ -34,45 +46,21 @@ const createTodo = function() {
         todoTitle.setAttribute('placeholder', "Todo title...")
         todoTitle.setAttribute('type', 'text');
 
-        const todoDescription = document.createElement('textarea');
-        todoDescription.classList.add('new-todo-item')
-        todoDescription.id = 'add-todo-description-input'
-        todoDescription.setAttribute('placeholder', "Todo description...")
-
-        const todoProject = document.createElement('input');
-        todoProject.classList.add('new-todo-item');
-        todoProject.id = 'add-todo-project-input'
-        todoProject.setAttribute('placeholder', 'Project title...')
-
-        const todoDue = document.createElement('input');
-        todoDue.classList.add('new-todo-item');
-        todoDue.id = 'add-todo-dueDate-input'
-        todoDue.setAttribute('type', 'date');
-        todoDue.setAttribute('placeholder', 'Due date...')
-
-        const todoButton = document.createElement('button');
-        todoButton.classList.add('new-todo-item')
-        todoButton.id = 'add-todo-btn';
-        todoButton.textContent = 'Add task';
-        todoButton.addEventListener('click', (e) => {
+        const addTaskButton = document.createElement('button');
+        addTaskButton.classList.add('new-todo-item')
+        addTaskButton.id = 'add-todo-btn';
+        addTaskButton.textContent = 'Add task';
+        addTaskButton.addEventListener('click', (e) => {
             e.preventDefault();
             const title = todoTitle.value;
-            const description = todoDescription.value;
-            const project = todoProject.value;
-            const dueDate = todoDue.value;
-            getItemValues(title, description, project, dueDate);
-            removeContent();
-            render();
-            navProjects();
+            projectsList.push({title: title, taskList: []});
+            renderNavProjects();
         })
 
         newProjectForm.appendChild(todoTitle);
-        newProjectForm.appendChild(todoDescription);
-        newProjectForm.appendChild(todoProject);
-        newProjectForm.appendChild(todoDue);
-        newProjectForm.appendChild(todoButton);
+        newProjectForm.appendChild(addTaskButton);
         newTaskContent.appendChild(newProjectForm);
     } else return
 }
 
-export { navProjects, createTodo }
+export { renderNavProjects, createNewProject }

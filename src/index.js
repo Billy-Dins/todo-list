@@ -2,7 +2,7 @@ import './style.scss';
 
 import { render, dueToday, dueThisWeek, displayTask } from './DOM/render.js'
 import removeContent from './DOM/remove.js'
-import { createNewProject, renderNavProjects } from './DOM/navProjects.js'
+import { createNewProject, renderNavProjects, } from './DOM/navProjects.js'
 
 render();
 renderNavProjects(); 

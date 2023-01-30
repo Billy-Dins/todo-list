@@ -5,12 +5,7 @@ import removeContent from "../DOM/remove.js"
 const parentProjects = document.getElementById('nav-projects-parent')
 const newTaskContent = document.getElementById('new-task-content')
 
-const projectsList = []
-
-const saveToLocalStorage = function() {
-    localStorage.setItem('todoProjects', JSON.stringify(projectsList))
-    console.log(JSON.parse(localStorage.getItem('todoProjects')));
-}
+let projectsList = [];
 
 const removeNavProjects = function() {
     for (let i = 0; i < projectsList.length; i++) {
@@ -18,20 +13,21 @@ const removeNavProjects = function() {
             parentProjects.firstChild.remove();
         }
     }
-}
+};
 
 const renderNavProjects = function() {
-    console.log(projectsList)
-    removeNavProjects();
-    const numProjects = projectsList.length
-    for (let i = 0; i < numProjects; i++) {
-        const project = document.createElement('button');
-        project.addEventListener('click', () => {
-            console.log('hello')
-        });
-        project.classList.add('nav-project')
-        project.textContent = `${projectsList[i].title}`;
-        parentProjects.appendChild(project);
+    if (projectsList !== null) {
+        removeNavProjects();
+        const numProjects = projectsList.length
+        for (let i = 0; i < numProjects; i++) {
+            const project = document.createElement('button');
+            project.addEventListener('click', () => {
+                console.log('hello')
+            });
+            project.classList.add('nav-project')
+            project.textContent = `${projectsList[i].title}`;
+            parentProjects.appendChild(project);
+        }
     }
 };
 
@@ -52,9 +48,11 @@ const createNewProject = function() {
         addTaskButton.textContent = 'Add task';
         addTaskButton.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log(todoTitle.value)
             const title = todoTitle.value;
             projectsList.push({title: title, taskList: []});
             renderNavProjects();
+            localStorage.setItem('todoProjects', JSON.stringify(projectsList));
         })
 
         newProjectForm.appendChild(todoTitle);
@@ -63,4 +61,4 @@ const createNewProject = function() {
     } else return
 }
 
-export { renderNavProjects, createNewProject }
+export { renderNavProjects, createNewProject, }

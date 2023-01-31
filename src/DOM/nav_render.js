@@ -1,11 +1,17 @@
-import { groupBy, getItemValues } from "../logic";
-import { render } from "./render.js";
-import removeContent from "../DOM/remove.js"
+import { displayProject } from "./main_render";
 
 const parentProjects = document.getElementById('nav-projects-parent')
 const newTaskContent = document.getElementById('new-task-content')
 
 let projectsList = [];
+
+// If localStorage has previously stored projects, sets them as the projectList array
+const setProjectList = function() {
+    const currentStorage = JSON.parse(localStorage.getItem('todoProjects'));
+    if (currentStorage !== null) {
+        projectsList = currentStorage;
+    }
+};
 
 const removeNavProjects = function() {
     for (let i = 0; i < projectsList.length; i++) {
@@ -14,23 +20,22 @@ const removeNavProjects = function() {
         }
     }
 };
-
 const renderNavProjects = function() {
-    if (projectsList !== null) {
-        removeNavProjects();
-        const numProjects = projectsList.length
-        for (let i = 0; i < numProjects; i++) {
-            const project = document.createElement('button');
-            project.addEventListener('click', () => {
-                console.log('hello')
-            });
-            project.classList.add('nav-project')
-            project.textContent = `${projectsList[i].title}`;
-            parentProjects.appendChild(project);
-        }
+    setProjectList();
+    removeNavProjects();
+    const numProjects = projectsList.length
+    for (let i = 0; i < numProjects; i++) {
+        const project = document.createElement('button');
+        project.addEventListener('click', () => {
+            displayProject(projectsList[i], i);
+        });
+        project.classList.add('nav-project')
+        project.textContent = `${projectsList[i].title}`;
+        parentProjects.appendChild(project);
     }
 };
 
+// Gets input from input & adds it to working array & localStorage.
 const createNewProject = function() {
     if (newTaskContent.hasChildNodes() === false) {
         const newProjectForm = document.createElement('form');
@@ -46,19 +51,16 @@ const createNewProject = function() {
         addTaskButton.classList.add('new-todo-item')
         addTaskButton.id = 'add-todo-btn';
         addTaskButton.textContent = 'Add task';
-        addTaskButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log(todoTitle.value)
+        addTaskButton.addEventListener('click', () => {
             const title = todoTitle.value;
             projectsList.push({title: title, taskList: []});
             renderNavProjects();
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
-        })
-
+        });
         newProjectForm.appendChild(todoTitle);
         newProjectForm.appendChild(addTaskButton);
         newTaskContent.appendChild(newProjectForm);
     } else return
-}
+};
 
-export { renderNavProjects, createNewProject, }
+export { renderNavProjects, createNewProject, setProjectList, projectsList }

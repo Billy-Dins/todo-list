@@ -1,7 +1,7 @@
 import { isThisWeek, parse, } from 'date-fns'
 
-import { projectsList } from './nav_render.js'
-import { groupBy, todoItems } from '../logic/logic.js'
+import { projectsList } from './nav_render.js';
+import { todoItems } from '../logic/logic.js'
 import removeContent from './main_remove.js';
 
 const removeAddTaskButton = function() {
@@ -9,13 +9,25 @@ const removeAddTaskButton = function() {
     addTaskButton.remove();
 };
 
-const addNewTask = function(title, description, date) {
+const newTaskFactory = function(title, description, date) {
+    return { title, description, date }
+}
+
+const addNewTask = function(taskObject) {
     const taskContainer = document.querySelector('#task-container');
     const newTask = document.createElement('div');
     newTask.classList.add('todo-item');
+
     const taskTitle = document.createElement('div');
-    taskTitle.textContent = title
-    newTask.append(taskTitle);
+    taskTitle.textContent = taskObject.title
+
+    const taskDescription = document.createElement('div');
+    taskDescription.textContent = taskObject.description;
+
+    const taskDate = document.createElement('div');
+    taskDate.textContent = taskObject.date;
+
+    newTask.append(taskTitle, taskDescription, taskDate);
     taskContainer.appendChild(newTask)
 }
 
@@ -23,7 +35,7 @@ const removeNewTaskForm = function() {
     const newTaskForm = document.querySelector('#new-task-form');
     newTaskForm.remove();
 };
-const addTaskForm = function() {
+const addTaskForm = function(index) {
     const taskContainer = document.getElementById('task-container');
     const newTaskForm = document.createElement('form');
     newTaskForm.id = 'new-task-form';
@@ -50,7 +62,11 @@ const addTaskForm = function() {
     submitNewTaskButton.textContent = 'Submit';
     submitNewTaskButton.addEventListener('click', (e) => {
         e.preventDefault();
-        addNewTask(formTitleInput.value, descriptionInput.value, dateInput.value);
+        const newTaskObject = newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value)
+        projectsList[index].taskList.push(newTaskObject);
+        localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+        console.log(JSON.parse(localStorage.getItem('todoProjects')));
+        addNewTask(newTaskObject);
         removeNewTaskForm();
         createAddTaskButton();
     })
@@ -59,13 +75,13 @@ const addTaskForm = function() {
     removeAddTaskButton();
 };
 
-const createAddTaskButton = function() {
+const createAddTaskButton = function(index) {
     const mainContent = document.querySelector('.main');
     const addTask = document.createElement('button');
     addTask.id = 'add-task-btn'
     addTask.textContent = '+ Add task'
     addTask.addEventListener('click', () => {
-        addTaskForm();
+        addTaskForm(index);
     });
     mainContent.appendChild(addTask);
 };
@@ -80,7 +96,7 @@ const displayProject = function(project, index) {
     removeContent();
     mainContent.appendChild(projectTitle);
     mainContent.appendChild(taskContainer);
-    createAddTaskButton();
+    createAddTaskButton(index);
 };
 // checks if there is a displayed key 
 const render = function(key, value) {

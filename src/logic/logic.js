@@ -4,15 +4,8 @@ const pushtoArray = function(newItem) {
     todoItems.push(newItem)
     localStorage.setItem('to do items', JSON.stringify(todoItems));
 }
-const todoItemFactory = function(title, description, project, dueDate) {
-    return { title, description, project, dueDate };
-}
 // Primary called function that creates an object and assigns DOM
 // objects to it.
-const getItemValues = function(title, description, project, dueDate) {
-    const newItem = todoItemFactory(title, description, project, dueDate);
-    pushtoArray(newItem)
-};
 
 // looks at all items currently in the selected array and determines if
 // the item shares a common key with other items then returns them as grouped
@@ -29,4 +22,4 @@ const groupBy = function(object) {
     }, {});
  };
 
- export { todoItems, getItemValues, groupBy }
+ export { todoItems }

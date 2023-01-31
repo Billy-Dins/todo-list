@@ -74,6 +74,19 @@ main {
   padding: 5px;
   width: 100%;
 }
+#new-task-form {
+  padding: 10px;
+  background-color: aliceblue;
+  border-radius: 5px;
+}
+#new-task-title-input, #new-task-description-input, #new-task-date-input {
+  width: 95%;
+}
+#new-task-submit-btn {
+  background-color: steelblue;
+  padding: 2px;
+  border-radius: 2px;
+}
 .todo-item {
   margin-bottom: 2%;
   padding: 2%;

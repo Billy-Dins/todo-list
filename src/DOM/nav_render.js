@@ -51,11 +51,11 @@ const createNewProject = function() {
         addTaskButton.classList.add('new-todo-item')
         addTaskButton.id = 'add-todo-btn';
         addTaskButton.textContent = 'Add task';
-        addTaskButton.addEventListener('click', () => {
+        addTaskButton.addEventListener('click', (e) => {
             const title = todoTitle.value;
             projectsList.push({title: title, taskList: []});
-            renderNavProjects();
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+            renderNavProjects();
         });
         newProjectForm.appendChild(todoTitle);
         newProjectForm.appendChild(addTaskButton);

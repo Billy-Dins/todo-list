@@ -1,44 +1,66 @@
 import { isThisWeek, parse, } from 'date-fns'
 
-import { projectsList } from './nav_render.js';
-import { todoItems } from '../logic/logic.js'
-import removeContent from './main_remove.js';
+import { projectsList, currentProject } from './nav_render.js';
+import { removeContent, refreshContent } from './main_remove.js';
+
+const mainContent = document.querySelector('.main')
+
+const renderHome = function() {
+    const projectTitle = document.createElement('div');
+    projectTitle.textContent = 'Home';
+    mainContent.appendChild(projectTitle);
+    for (let i = 0; i < projectsList.length; i++) {
+        const taskContainer = document.createElement('div');
+        taskContainer.id = 'task-container';
+        mainContent.appendChild(taskContainer);
+        const project = projectsList[i];
+        renderLocalStorage(project);
+    };
+}
+
+const renderLocalStorage = function (project) {
+    const taskContainer = document.querySelector('#task-container');
+    const taskList = project.taskList;
+    for (let i = 0; i < taskList.length; i++) {
+        const newTask = document.createElement('div');
+        newTask.classList.add('todo-item');
+        const taskTitle = document.createElement('div');
+        taskTitle.textContent = taskList[i].title
+        const taskDescription = document.createElement('div');
+        taskDescription.textContent = taskList[i].description;
+        const taskDate = document.createElement('div');
+        taskDate.textContent = taskList[i].date;
+        newTask.append(taskTitle, taskDescription, taskDate);
+        taskContainer.appendChild(newTask)
+    };
+};
+
+const newTaskFactory = function(title, description, date) {
+    return { title, description, date }
+};
+
+const removeNewTaskForm = function() {
+    const newTaskForm = document.querySelector('.new-task-form');
+    newTaskForm.remove();
+};
+
+const pushNewTask = function(newTask) {
+    projectsList[currentProject].taskList.push(newTask);
+    localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+    removeNewTaskForm();
+    refreshContent();
+    renderLocalStorage(projectsList[currentProject]);
+    createAddTaskButton();
+};
 
 const removeAddTaskButton = function() {
     const addTaskButton = document.getElementById('add-task-btn');
     addTaskButton.remove();
 };
 
-const newTaskFactory = function(title, description, date) {
-    return { title, description, date }
-}
-
-const addNewTask = function(taskObject) {
-    const taskContainer = document.querySelector('#task-container');
-    const newTask = document.createElement('div');
-    newTask.classList.add('todo-item');
-
-    const taskTitle = document.createElement('div');
-    taskTitle.textContent = taskObject.title
-
-    const taskDescription = document.createElement('div');
-    taskDescription.textContent = taskObject.description;
-
-    const taskDate = document.createElement('div');
-    taskDate.textContent = taskObject.date;
-
-    newTask.append(taskTitle, taskDescription, taskDate);
-    taskContainer.appendChild(newTask)
-}
-
-const removeNewTaskForm = function() {
-    const newTaskForm = document.querySelector('#new-task-form');
-    newTaskForm.remove();
-};
-const addTaskForm = function(index) {
-    const taskContainer = document.getElementById('task-container');
+const addTaskForm = function() {
     const newTaskForm = document.createElement('form');
-    newTaskForm.id = 'new-task-form';
+    newTaskForm.classList.add('new-task-form');
     const formTitle = document.createElement('div');
     formTitle.id = 'new-task-title'
     formTitle.textContent = '*Title:'
@@ -62,33 +84,25 @@ const addTaskForm = function(index) {
     submitNewTaskButton.textContent = 'Submit';
     submitNewTaskButton.addEventListener('click', (e) => {
         e.preventDefault();
-        const newTaskObject = newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value)
-        projectsList[index].taskList.push(newTaskObject);
-        localStorage.setItem('todoProjects', JSON.stringify(projectsList));
-        console.log(JSON.parse(localStorage.getItem('todoProjects')));
-        addNewTask(newTaskObject);
-        removeNewTaskForm();
-        createAddTaskButton();
+        pushNewTask(newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value));
     })
     newTaskForm.append(formTitle, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
-    taskContainer.appendChild(newTaskForm);
-    removeAddTaskButton();
+    mainContent.appendChild(newTaskForm);
 };
-
-const createAddTaskButton = function(index) {
-    const mainContent = document.querySelector('.main');
+// Creates the button that creates the add task form.
+const createAddTaskButton = function() {
     const addTask = document.createElement('button');
     addTask.id = 'add-task-btn'
     addTask.textContent = '+ Add task'
     addTask.addEventListener('click', () => {
-        addTaskForm(index);
+        addTaskForm();
+        removeAddTaskButton();
     });
     mainContent.appendChild(addTask);
 };
-// This function should create a task and push it to local storage.
-// A different function should render localStorage to the webpage.
-const displayProject = function(project, index) {
-    const mainContent = document.querySelector('.main')
+
+// Called by clicking a project title in the nav bar
+const displayProject = function(project) {
     const projectTitle = document.createElement('div');
     projectTitle.textContent = `${project.title}`;
     const taskContainer = document.createElement('div');
@@ -96,18 +110,10 @@ const displayProject = function(project, index) {
     removeContent();
     mainContent.appendChild(projectTitle);
     mainContent.appendChild(taskContainer);
-    createAddTaskButton(index);
+    renderLocalStorage(project);
+    createAddTaskButton();
 };
-// checks if there is a displayed key 
-const render = function(key, value) {
-    if (key && value) {
-        const groupedProjects = groupBy(key)[value];
-        displayProject(groupedProjects)
-    } else {
-        const groupedProjects = JSON.parse(localStorage.getItem("to do items"))
-        displayProject(groupedProjects)
-    }
-};
+
 const todaysDate = function() {
     let date = new Date();
     let day = date.getDate();
@@ -120,7 +126,13 @@ const todaysDate = function() {
 };
 
 const dueToday = function() {
-    return todoItems.filter(item => item.dueDate === todaysDate());
+    for (let i = 0; i <= projectsList.length; i++) {
+        if (projectsList[i].taskList === undefined) {
+            return
+        } else {
+            const filteredList = projectsList[i].taskList.filter(item => item.dueDate === todaysDate());
+        }
+    }
 };
 
 const dueThisWeek = function() {
@@ -133,4 +145,4 @@ const dueThisWeek = function() {
     }
     return dueWeekArray;
 };
-export { render, dueToday, dueThisWeek, displayProject }
+export { renderHome, dueToday, dueThisWeek, displayProject }

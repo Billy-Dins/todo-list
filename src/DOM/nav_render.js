@@ -4,6 +4,7 @@ const parentProjects = document.getElementById('nav-projects-parent')
 const newTaskContent = document.getElementById('new-task-content')
 
 let projectsList = [];
+let currentProject = '';
 
 // If localStorage has previously stored projects, sets them as the projectList array
 const setProjectList = function() {
@@ -13,13 +14,6 @@ const setProjectList = function() {
     }
 };
 
-const removeNavProjects = function() {
-    for (let i = 0; i < projectsList.length; i++) {
-        if (parentProjects.hasChildNodes() === true) {
-            parentProjects.firstChild.remove();
-        }
-    }
-};
 const renderNavProjects = function() {
     setProjectList();
     removeNavProjects();
@@ -28,11 +22,12 @@ const renderNavProjects = function() {
         const project = document.createElement('button');
         project.addEventListener('click', () => {
             displayProject(projectsList[i], i);
+            currentProject = i;
         });
         project.classList.add('nav-project')
         project.textContent = `${projectsList[i].title}`;
         parentProjects.appendChild(project);
-    }
+    };
 };
 
 // Gets input from input & adds it to working array & localStorage.
@@ -63,4 +58,12 @@ const createNewProject = function() {
     } else return
 };
 
-export { renderNavProjects, createNewProject, setProjectList, projectsList }
+const removeNavProjects = function() {
+    for (let i = 0; i < projectsList.length; i++) {
+        if (parentProjects.hasChildNodes() === true) {
+            parentProjects.firstChild.remove();
+        }
+    }
+};
+
+export { setProjectList, renderNavProjects, createNewProject, projectsList, currentProject }

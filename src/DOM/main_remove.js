@@ -6,4 +6,11 @@ const removeContent = function () {
     };
 };
 
-export default removeContent
+const refreshContent = function() {
+    const taskContainer = document.getElementById('task-container')
+    while (taskContainer.hasChildNodes()) {
+        taskContainer.firstChild.remove();
+    }
+};
+
+export { removeContent, refreshContent }

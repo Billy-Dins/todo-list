@@ -5,6 +5,7 @@ import { removeContent } from './DOM/main_remove.js'
 import { createNewProject, renderNavProjects } from './DOM/nav_render.js'
 
 renderNavProjects(); 
+renderHome();
 
 const homeButton = document.getElementById('home-btn');
 homeButton.addEventListener('click', () => {

@@ -1,6 +1,6 @@
 import './style.scss';
 
-import { dueToday, dueThisWeek, displayProject, renderHome } from './DOM/main_render.js'
+import { dueToday, dueThisWeek, renderDueDate, renderHome } from './DOM/main_render.js'
 import { removeContent } from './DOM/main_remove.js'
 import { createNewProject, renderNavProjects } from './DOM/nav_render.js'
 
@@ -16,14 +16,14 @@ const todayButton = document.getElementById('today-btn');
 todayButton.addEventListener('click', () => {
     removeContent();
     const todayArray = dueToday();
-    displayProject(todayArray);
+    renderDueDate(todayArray);
 });
 
 const weekButton = document.getElementById('week-btn');
 weekButton.addEventListener('click', () => {
     removeContent();
     const weekArray = dueThisWeek();
-    displayProject(weekArray);
+    console.log(weekArray)
 });
 const addProject = document.getElementById('project-btn');
 addProject.addEventListener('click', () => {

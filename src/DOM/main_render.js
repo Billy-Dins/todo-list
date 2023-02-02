@@ -103,6 +103,7 @@ const createAddTaskButton = function() {
 
 // Called by clicking a project title in the nav bar
 const displayProject = function(project) {
+    console.log(project)
     const projectTitle = document.createElement('div');
     projectTitle.textContent = `${project.title}`;
     const taskContainer = document.createElement('div');
@@ -114,9 +115,33 @@ const displayProject = function(project) {
     createAddTaskButton();
 };
 
+const renderDueDate = function(filteredArray) {
+    const projectTitle = document.createElement('div');
+    projectTitle.textContent = 'Due Today';
+    const taskContainer = document.createElement('div');
+    taskContainer.id = 'task-container';
+    for (let i = 0; i < filteredArray.length; i++) {
+        const newTask = document.createElement('div');
+        newTask.classList.add('todo-item');
+        const taskTitle = document.createElement('div');
+        taskTitle.textContent = filteredArray[i].title
+        const taskDescription = document.createElement('div');
+        taskDescription.textContent = filteredArray[i].description;
+        const taskDate = document.createElement('div');
+        taskDate.textContent = filteredArray[i].date;
+        newTask.append(taskTitle, taskDescription, taskDate);
+        taskContainer.appendChild(newTask)
+    };
+    mainContent.appendChild(projectTitle);
+    mainContent.appendChild(taskContainer);
+}
+
 const todaysDate = function() {
     let date = new Date();
     let day = date.getDate();
+    if (day < 10) {
+        day = `0${day}`;
+    }
     let month = date.getMonth() + 1;
     if (month < 10) {
         month = `0${month}`;
@@ -126,23 +151,30 @@ const todaysDate = function() {
 };
 
 const dueToday = function() {
-    for (let i = 0; i <= projectsList.length; i++) {
-        if (projectsList[i].taskList === undefined) {
-            return
-        } else {
-            const filteredList = projectsList[i].taskList.filter(item => item.dueDate === todaysDate());
+    let filteredArray = []
+    for (let i = 0; i < projectsList.length; i++) {
+        let todoList = projectsList[i].taskList
+        for (let i = 0; i < todoList.length; i++){
+            if (todoList[i].date == todaysDate()) {
+                filteredArray.push(todoList[i])
+            }
         }
     }
+    return filteredArray;
 };
 
 const dueThisWeek = function() {
     let dueWeekArray = []
-    for (let i = 0; i < todoItems.length; i++) {
-        let newDate = todoItems[i].dueDate;
-        if (isThisWeek(parse(newDate, 'yyyy-mm-dd', new Date()))) {
-            dueWeekArray.push(todoItems[i]);
+    for (let i = 0; i < projectsList.length; i++) {
+        let project = projectsList[i];
+        for (let j = 0; j < project.taskList.length; j++) {
+            let taskListItem = project.taskList;
+            if (isThisWeek(parse(taskListItem[j].date, 'yyyy-mm-dd', new Date()))) {
+
+                dueWeekArray.push(taskListItem[j]);
+            }
         }
     }
     return dueWeekArray;
 };
-export { renderHome, dueToday, dueThisWeek, displayProject }
+export { renderHome, dueToday, dueThisWeek, renderDueDate, displayProject }

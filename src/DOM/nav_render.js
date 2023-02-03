@@ -1,7 +1,7 @@
 import { displayProject } from "./main_render";
 
 const parentProjects = document.getElementById('nav-projects-parent')
-const newTaskContent = document.getElementById('new-task-content')
+const newProjectContent = document.getElementById('new-project-content')
 
 let projectsList = [];
 let currentProject = '';
@@ -17,11 +17,12 @@ const setProjectList = function() {
 const renderNavProjects = function() {
     setProjectList();
     removeNavProjects();
+    console.log(projectsList);
     const numProjects = projectsList.length
     for (let i = 0; i < numProjects; i++) {
         const project = document.createElement('button');
         project.addEventListener('click', () => {
-            displayProject(projectsList[i], i);
+            displayProject(projectsList[i]);
             currentProject = i;
         });
         project.classList.add('nav-project')
@@ -32,35 +33,42 @@ const renderNavProjects = function() {
 
 // Gets input from input & adds it to working array & localStorage.
 const createNewProject = function() {
-    if (newTaskContent.hasChildNodes() === false) {
+    if (newProjectContent.hasChildNodes() === false) {
         const newProjectForm = document.createElement('form');
         newProjectForm.id = 'new-project-form';
 
-        const todoTitle = document.createElement('input');
-        todoTitle.classList.add('new-todo-item')
-        todoTitle.id = 'add-todo-title-input'
-        todoTitle.setAttribute('placeholder', "Todo title...")
-        todoTitle.setAttribute('type', 'text');
-
+        const projectTitle = document.createElement('input');
+        projectTitle.classList.add('new-todo-item')
+        projectTitle.id = 'add-todo-title-input'
+        projectTitle.setAttribute('placeholder', "Project title...")
+        projectTitle.setAttribute('type', 'text');
+        
+        const exitForm = document.createElement('button');
+        exitForm.textContent = 'X';
+        exitForm.id = 'project-form-remove-btn';
+        exitForm.addEventListener('click', (e) => {
+            e.preventDefault();
+            newProjectForm.remove();
+        });
         const addTaskButton = document.createElement('button');
         addTaskButton.classList.add('new-todo-item')
         addTaskButton.id = 'add-todo-btn';
         addTaskButton.textContent = 'Add task';
         addTaskButton.addEventListener('click', (e) => {
-            const title = todoTitle.value;
+            const title = projectTitle.value;
             projectsList.push({title: title, taskList: []});
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
             renderNavProjects();
         });
-        newProjectForm.appendChild(todoTitle);
+        newProjectForm.appendChild(projectTitle);
+        newProjectForm.appendChild(exitForm);
         newProjectForm.appendChild(addTaskButton);
-        newTaskContent.appendChild(newProjectForm);
+        newProjectContent.appendChild(newProjectForm);
     } else return
 };
 
 const removeNavProjects = function() {
-    for (let i = 0; i < projectsList.length; i++) {
-        if (parentProjects.hasChildNodes() === true) {
+    while (parentProjects.hasChildNodes() === true) { {
             parentProjects.firstChild.remove();
         }
     }

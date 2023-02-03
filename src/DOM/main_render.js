@@ -1,6 +1,6 @@
 import { isThisWeek, parse, } from 'date-fns'
 
-import { projectsList, currentProject } from './nav_render.js';
+import { projectsList, currentProject, setProjectList, renderNavProjects } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
 const mainContent = document.querySelector('.main')
@@ -69,21 +69,36 @@ const removeAddTaskButton = function() {
 const addTaskForm = function() {
     const newTaskForm = document.createElement('form');
     newTaskForm.classList.add('new-task-form');
+
     const formTitle = document.createElement('div');
     formTitle.id = 'new-task-title'
     formTitle.textContent = '*Title:'
+
+    const formRemove = document.createElement('button');
+    formRemove.textContent = 'X';
+    formRemove.id = 'new-task-remove-btn';
+    formRemove.addEventListener('click', (e) => {
+        e.preventDefault();
+        newTaskForm.remove();
+        createAddTaskButton();
+    })
+
     const formTitleInput = document.createElement('input')
     formTitleInput.id = 'new-task-title-input'
     formTitleInput.setAttribute('placeholder', 'What to do?');
+
     const formDescription = document.createElement('div');
     formDescription.id = 'new-task-description'
     formDescription.textContent = 'Notes';
+
     const descriptionInput = document.createElement('textarea');
     descriptionInput.id = 'new-task-description-input'
     descriptionInput.setAttribute('placeholder', "eg: I probably won't do this anyways")
+
     const formDate = document.createElement('div');
     formDate.id = 'new-task-date-title'
     formDate.textContent = 'Date:'
+
     const dateInput = document.createElement('input')
     dateInput.id = 'new-task-date-input'
     dateInput.setAttribute('type', 'date');
@@ -94,7 +109,7 @@ const addTaskForm = function() {
         e.preventDefault();
         pushNewTask(newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value));
     })
-    newTaskForm.append(formTitle, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
+    newTaskForm.append(formTitle, formRemove, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
     mainContent.appendChild(newTaskForm);
 };
 // Creates the button that creates the add task form.
@@ -111,13 +126,29 @@ const createAddTaskButton = function() {
 
 // Called by clicking a project title in the nav bar
 const displayProject = function(project) {
+    const projectModule = document.createElement('div');
+    projectModule.id = 'project-module'
     const projectTitle = document.createElement('div');
     projectTitle.textContent = `${project.title}`;
+    const removeProjectButton = document.createElement('button');
+    removeProjectButton.textContent = 'X'
+    removeProjectButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm("You are about to delete this project and all it's tasks")) {
+            projectsList.splice(currentProject, 1);
+            localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+            renderNavProjects();
+            removeContent();
+            renderHome();
+        } else {
+            return
+        }
+    });
     const taskContainer = document.createElement('div');
     taskContainer.id = 'task-container';
     removeContent();
-    mainContent.appendChild(projectTitle);
-    mainContent.appendChild(taskContainer);
+    projectModule.append(projectTitle,removeProjectButton,taskContainer);
+    mainContent.appendChild(projectModule);
     renderLocalStorage(project);
     createAddTaskButton();
 };

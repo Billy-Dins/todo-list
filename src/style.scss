@@ -57,28 +57,30 @@ nav {
   padding: 0px;
   border-bottom: 1px solid black;
 }
-#new-task-content {
+#new-project-content {
   margin:10px 0px 10px 0px;
 }
+#new-project-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+#add-todo-title-input {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+#project-form-remove-btn {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
 #project-btn {
-  font-size: 1.9vw;
+
 }
 .nav-project {
   padding: 2px;
 }
 .new-todo-item {
   margin: 1px;
-}
-#new-project-form {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-}
-#add-todo-title-input {
-
-}
-#add-todo-description-input {
-
 }
 #add-todo-btn {
   background-color: steelblue;
@@ -96,15 +98,50 @@ main {
   padding: 5px;
   width: 100%;
 }
+#project-module {
+  padding: 5px;
+  display: grid;
+  grid-template-columns: 1fr 10px;
+  grid-template-rows: 1fr 1fr;
+}
 .new-task-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 5px;
+  grid-template-rows: 20px 20px 20px 50px 20px 20px 40px;
   padding: 10px;
   background-color: aliceblue;
   border-radius: 5px;
 }
-#new-task-title-input, #new-task-description-input, #new-task-date-input {
-  width: 95%;
+#new-task-title {
+  grid-column: 1/2;
+}
+#new-task-remove-btn {
+  grid-column: 4/5;
+}
+#new-task-title-input {
+  grid-column: 1/4;
+  grid-row: 2/3
+}
+#new-task-description {
+  grid-column: 1/2;
+  grid-row: 3/4;
+}
+#new-task-description-input {
+  grid-column: 1/4;
+  grid-row: 4/5;
+}
+#new-task-date-title {
+  grid-column: 1/2;
+  grid-row: 5/6;
+}
+#new-task-date-input {
+  grid-column: 1/4;
+  grid-row: 6/7
 }
 #new-task-submit-btn {
+  margin: 10px;
+  grid-column: 2/3;
+  grid-row: 7/8;
   background-color: steelblue;
   padding: 2px;
   border-radius: 2px;

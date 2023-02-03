@@ -1,6 +1,6 @@
 import { isThisWeek, parse, } from 'date-fns'
 
-import { projectsList, currentProject, setProjectList, renderNavProjects } from './nav_render.js';
+import { projectsList, currentProject, renderNavProjects } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
 const mainContent = document.querySelector('.main')
@@ -15,8 +15,8 @@ const renderHome = function() {
         mainContent.appendChild(taskContainer);
         const project = projectsList[i];
         renderLocalStorage(project);
-    };
-}
+    }
+};
 
 const renderLocalStorage = function (project) {
     const taskContainer = document.querySelector('#task-container');
@@ -25,18 +25,21 @@ const renderLocalStorage = function (project) {
         const newTask = document.createElement('div');
         newTask.classList.add('todo-item');
         const taskTitle = document.createElement('div');
+        taskTitle.id = 'task-title'
         taskTitle.textContent = taskList[i].title
         const taskRemove = document.createElement('button');
+        taskRemove.id = 'remove-task-btn'
         taskRemove.textContent = 'Mark complete';
         taskRemove.addEventListener('click', () => {
             projectsList[currentProject].taskList.splice(i, 1);
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
             displayProject(project)
-
         })
         const taskDescription = document.createElement('div');
+        taskDescription.id = 'task-description'
         taskDescription.textContent = taskList[i].description;
         const taskDate = document.createElement('div');
+        taskDate.id = 'task-date'
         taskDate.textContent = taskList[i].date;
         newTask.append(taskTitle, taskRemove, taskDescription, taskDate);
         taskContainer.appendChild(newTask)
@@ -126,6 +129,7 @@ const createAddTaskButton = function() {
 
 // Called by clicking a project title in the nav bar
 const displayProject = function(project) {
+    console.log(project)
     const projectModule = document.createElement('div');
     projectModule.id = 'project-module'
     const projectTitle = document.createElement('div');
@@ -134,7 +138,7 @@ const displayProject = function(project) {
     removeProjectButton.textContent = 'X'
     removeProjectButton.addEventListener('click', (e) => {
         e.preventDefault();
-        if (confirm("You are about to delete this project and all it's tasks")) {
+        if (confirm("You are about to delete this project and all its tasks.")) {
             projectsList.splice(currentProject, 1);
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
             renderNavProjects();
@@ -153,19 +157,22 @@ const displayProject = function(project) {
     createAddTaskButton();
 };
 
-const renderDueDate = function(filteredArray) {
+const renderDueDate = function(filteredArray, dueDate) {
     const projectTitle = document.createElement('div');
-    projectTitle.textContent = 'Due Today';
+    projectTitle.textContent = `Due ${dueDate}`;
     const taskContainer = document.createElement('div');
     taskContainer.id = 'task-container';
     for (let i = 0; i < filteredArray.length; i++) {
         const newTask = document.createElement('div');
         newTask.classList.add('todo-item');
         const taskTitle = document.createElement('div');
+        taskTitle.id = 'task-title'
         taskTitle.textContent = filteredArray[i].title
         const taskDescription = document.createElement('div');
+        taskDescription.id = 'task-description'
         taskDescription.textContent = filteredArray[i].description;
         const taskDate = document.createElement('div');
+        taskDate.id = 'task-date'
         taskDate.textContent = filteredArray[i].date;
         newTask.append(taskTitle, taskDescription, taskDate);
         taskContainer.appendChild(newTask)
@@ -208,7 +215,6 @@ const dueThisWeek = function() {
         for (let j = 0; j < project.taskList.length; j++) {
             let taskListItem = project.taskList;
             if (isThisWeek(parse(taskListItem[j].date, 'yyyy-mm-dd', new Date()))) {
-
                 dueWeekArray.push(taskListItem[j]);
             }
         }

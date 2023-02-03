@@ -102,7 +102,28 @@ main {
   padding: 5px;
   display: grid;
   grid-template-columns: 1fr 10px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 20px 1fr;
+}
+.todo-item {
+  display: grid;
+  grid-template-columns: 1fr 50px;
+  grid-template-rows: 20px 20px 20px;
+}
+#task-title {
+  grid-column: 1/2;
+  grid-row: 1/2;
+}
+#remove-task-btn {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+#task-description {
+  grid-column: 1/2;
+  grid-row: 2/3;
+}
+#task-date {
+  grid-column: 1/2;
+  grid-row: 3/4;
 }
 .new-task-form {
   display: grid;

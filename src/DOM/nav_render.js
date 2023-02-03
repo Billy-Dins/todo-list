@@ -1,3 +1,4 @@
+import { removeContent } from "./main_remove";
 import { displayProject } from "./main_render";
 
 const parentProjects = document.getElementById('nav-projects-parent')
@@ -17,11 +18,14 @@ const setProjectList = function() {
 const renderNavProjects = function() {
     setProjectList();
     removeNavProjects();
-    console.log(projectsList);
+    const newProjectForm = document.getElementById('new-project-content')
     const numProjects = projectsList.length
     for (let i = 0; i < numProjects; i++) {
         const project = document.createElement('button');
         project.addEventListener('click', () => {
+            if (newProjectForm.hasChildNodes()) {
+                newProjectForm.firstChild.remove();
+            }
             displayProject(projectsList[i]);
             currentProject = i;
         });
@@ -29,6 +33,15 @@ const renderNavProjects = function() {
         project.textContent = `${projectsList[i].title}`;
         parentProjects.appendChild(project);
     };
+};
+
+let newProject = function(projectTitle, arry) {
+    return { title: projectTitle, taskList: arry }
+};
+
+const removeNewProjectForm = function() {
+    const newProjectForm = document.getElementById('new-project-form');
+    newProjectForm.remove()
 };
 
 // Gets input from input & adds it to working array & localStorage.
@@ -48,16 +61,20 @@ const createNewProject = function() {
         exitForm.id = 'project-form-remove-btn';
         exitForm.addEventListener('click', (e) => {
             e.preventDefault();
-            newProjectForm.remove();
+            removeNewProjectForm();
         });
         const addTaskButton = document.createElement('button');
         addTaskButton.classList.add('new-todo-item')
         addTaskButton.id = 'add-todo-btn';
         addTaskButton.textContent = 'Add task';
         addTaskButton.addEventListener('click', (e) => {
-            const title = projectTitle.value;
-            projectsList.push({title: title, taskList: []});
+            e.preventDefault();
+            let project = newProject(projectTitle.value, [])
+            projectsList.push(project);
             localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+            removeContent();
+            displayProject(project);
+            removeNewProjectForm();
             renderNavProjects();
         });
         newProjectForm.appendChild(projectTitle);

@@ -17,14 +17,14 @@ const todayButton = document.getElementById('today-btn');
 todayButton.addEventListener('click', () => {
     removeContent();
     const todayArray = dueToday();
-    renderDueDate(todayArray);
+    renderDueDate(todayArray, 'today');
 });
 
 const weekButton = document.getElementById('week-btn');
 weekButton.addEventListener('click', () => {
     removeContent();
     const weekArray = dueThisWeek();
-    console.log(weekArray)
+    renderDueDate(weekArray, 'this week');
 });
 const addProject = document.getElementById('project-btn');
 addProject.addEventListener('click', () => {

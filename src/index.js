@@ -2,7 +2,7 @@ import './style.scss';
 
 import { dueToday, dueThisWeek, renderDueDate, renderHome } from './DOM/main_render.js'
 import { removeContent } from './DOM/main_remove.js'
-import { createNewProject, renderNavProjects } from './DOM/nav_render.js'
+import { createNewProject, currentProject, renderNavProjects } from './DOM/nav_render.js'
 
 renderNavProjects(); 
 renderHome();
@@ -11,6 +11,7 @@ const homeButton = document.getElementById('home-btn');
 homeButton.addEventListener('click', () => {
     removeContent();
     renderHome();
+    console.log(currentProject);
 });
 
 const todayButton = document.getElementById('today-btn');

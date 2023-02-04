@@ -7,12 +7,13 @@ const mainContent = document.querySelector('.main')
 
 const renderHome = function() {
     const projectTitle = document.createElement('div');
+    projectTitle.id = 'home-content-title'
     projectTitle.textContent = 'Home';
+    const taskContainer = document.createElement('div');
+    taskContainer.id = 'task-container';
     mainContent.appendChild(projectTitle);
+    mainContent.appendChild(taskContainer);
     for (let i = 0; i < projectsList.length; i++) {
-        const taskContainer = document.createElement('div');
-        taskContainer.id = 'task-container';
-        mainContent.appendChild(taskContainer);
         const project = projectsList[i];
         renderLocalStorage(project);
     }
@@ -21,27 +22,32 @@ const renderHome = function() {
 const renderLocalStorage = function (project) {
     const taskContainer = document.querySelector('#task-container');
     const taskList = project.taskList;
+    const homeTitle = document.querySelector('#home-content-title');
     for (let i = 0; i < taskList.length; i++) {
         const newTask = document.createElement('div');
         newTask.classList.add('todo-item');
         const taskTitle = document.createElement('div');
         taskTitle.id = 'task-title'
         taskTitle.textContent = taskList[i].title
-        const taskRemove = document.createElement('button');
-        taskRemove.id = 'remove-task-btn'
-        taskRemove.textContent = 'Mark complete';
-        taskRemove.addEventListener('click', () => {
-            projectsList[currentProject].taskList.splice(i, 1);
-            localStorage.setItem('todoProjects', JSON.stringify(projectsList));
-            displayProject(project)
-        })
+
+        if (!homeTitle) {
+            const taskRemove = document.createElement('button');
+            taskRemove.id = 'remove-task-btn'
+            taskRemove.textContent = 'Mark complete';
+            taskRemove.addEventListener('click', () => {
+                projectsList[currentProject].taskList.splice(i, 1);
+                localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+                displayProject(project)
+            })
+            newTask.appendChild(taskRemove)
+        };
         const taskDescription = document.createElement('div');
         taskDescription.id = 'task-description'
         taskDescription.textContent = taskList[i].description;
         const taskDate = document.createElement('div');
         taskDate.id = 'task-date'
         taskDate.textContent = taskList[i].date;
-        newTask.append(taskTitle, taskRemove, taskDescription, taskDate);
+        newTask.append(taskTitle, taskDescription, taskDate);
         taskContainer.appendChild(newTask)
     };
 };
@@ -129,7 +135,6 @@ const createAddTaskButton = function() {
 
 // Called by clicking a project title in the nav bar
 const displayProject = function(project) {
-    console.log(project)
     const projectModule = document.createElement('div');
     projectModule.id = 'project-module'
     const projectTitle = document.createElement('div');

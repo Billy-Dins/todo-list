@@ -26,8 +26,8 @@ const renderNavProjects = function() {
             if (newProjectForm.hasChildNodes()) {
                 newProjectForm.firstChild.remove();
             }
-            displayProject(projectsList[i]);
             currentProject = i;
+            displayProject(projectsList[i]);
         });
         project.classList.add('nav-project')
         project.textContent = `${projectsList[i].title}`;

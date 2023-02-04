@@ -5,7 +5,7 @@ const parentProjects = document.getElementById('nav-projects-parent')
 const newProjectContent = document.getElementById('new-project-content')
 
 let projectsList = [];
-let currentProject = '';
+let currentProject = 0;
 
 // If localStorage has previously stored projects, sets them as the projectList array
 const setProjectList = function() {

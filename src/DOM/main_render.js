@@ -1,6 +1,6 @@
 import { isThisWeek, parse, } from 'date-fns'
 
-import { projectsList, currentProject, renderNavProjects } from './nav_render.js';
+import { projectsList, currentProject, renderNavProjects, setProjectList } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
 const mainContent = document.querySelector('#main-content')
@@ -62,6 +62,11 @@ const removeNewTaskForm = function() {
 };
 
 const pushNewTask = function(newTask) {
+    setProjectList();
+    console.log(`projectsList is ${projectsList}`)
+    console.log(`projectsList[currentProject] is ${projectsList[currentProject]}`)
+    console.log(`projectsList[currentProject].taskList is ${projectsList[currentProject].taskList}`)
+    console.log(`newTask is ${newTask}`)
     projectsList[currentProject].taskList.push(newTask);
     localStorage.setItem('todoProjects', JSON.stringify(projectsList));
     removeNewTaskForm();

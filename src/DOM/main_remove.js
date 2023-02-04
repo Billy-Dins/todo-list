@@ -1,4 +1,4 @@
-const mainContent = document.querySelector('.main');
+const mainContent = document.querySelector('#main-content');
 
 const removeContent = function () {
     for (let i = mainContent.childElementCount; i > 0; i--) {

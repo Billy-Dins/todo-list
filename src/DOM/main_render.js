@@ -3,7 +3,7 @@ import { isThisWeek, parse, } from 'date-fns'
 import { projectsList, currentProject, renderNavProjects } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
-const mainContent = document.querySelector('.main')
+const mainContent = document.querySelector('#main-content')
 
 const renderHome = function() {
     const projectTitle = document.createElement('div');
@@ -33,7 +33,7 @@ const renderLocalStorage = function (project) {
         if (!homeTitle) {
             const taskRemove = document.createElement('button');
             taskRemove.id = 'remove-task-btn'
-            taskRemove.textContent = 'Mark complete';
+            taskRemove.textContent = 'Complete';
             taskRemove.addEventListener('click', () => {
                 projectsList[currentProject].taskList.splice(i, 1);
                 localStorage.setItem('todoProjects', JSON.stringify(projectsList));
@@ -86,8 +86,8 @@ const addTaskForm = function() {
     const formRemove = document.createElement('button');
     formRemove.textContent = 'X';
     formRemove.id = 'new-task-remove-btn';
+    formRemove.setAttribute('onsubmit', 'return false')
     formRemove.addEventListener('click', (e) => {
-        e.preventDefault();
         newTaskForm.remove();
         createAddTaskButton();
     })
@@ -95,6 +95,7 @@ const addTaskForm = function() {
     const formTitleInput = document.createElement('input')
     formTitleInput.id = 'new-task-title-input'
     formTitleInput.setAttribute('placeholder', 'What to do?');
+    formTitleInput.required = true
 
     const formDescription = document.createElement('div');
     formDescription.id = 'new-task-description'
@@ -138,8 +139,10 @@ const displayProject = function(project) {
     const projectModule = document.createElement('div');
     projectModule.id = 'project-module'
     const projectTitle = document.createElement('div');
+    projectTitle.id = 'project-title'
     projectTitle.textContent = `${project.title}`;
     const removeProjectButton = document.createElement('button');
+    removeProjectButton.id = 'remove-project-btn'
     removeProjectButton.textContent = 'X'
     removeProjectButton.addEventListener('click', (e) => {
         e.preventDefault();
@@ -156,8 +159,8 @@ const displayProject = function(project) {
     const taskContainer = document.createElement('div');
     taskContainer.id = 'task-container';
     removeContent();
-    projectModule.append(projectTitle,removeProjectButton,taskContainer);
-    mainContent.appendChild(projectModule);
+    projectModule.append(taskContainer);
+    mainContent.append(projectTitle, removeProjectButton, projectModule);
     renderLocalStorage(project);
     createAddTaskButton();
 };

@@ -35,6 +35,7 @@ nav {
   background-color: $nav-bg-color;
 }
 #home-title {
+  padding-bottom: 5px;
   margin: 0px 20px 0px 20px;
   border-bottom: 1px solid black
 }
@@ -42,6 +43,7 @@ nav {
   font-size: 1rem;
 }
 #nav-projects-title {
+  padding-bottom: 5px;
   margin: 0px 20px 0px 20px;
   font-size: 1rem;
   border-bottom: 1px solid black;
@@ -73,9 +75,6 @@ nav {
   grid-column: 2/3;
   grid-row: 1/2;
 }
-#project-btn {
-
-}
 .nav-project {
   padding: 2px;
 }
@@ -88,10 +87,19 @@ nav {
 }
 main {
   padding: 5%;
-  grid-column: 2/3;
-  grid-row: 2/3;
 }
+#main-content {
+  display: grid;
+  grid-template-columns: 1fr 25px;
+  grid-template-rows: 100px 1fr 50px;
+}
+#home-content-title {
+  grid-row: 1/2;
+}
+
 #add-task-btn {
+  grid-column: 1/3;
+  grid-row: 3/4;
   background-color: aliceblue;
   text-align: left;
   border: 1px solid black;
@@ -99,23 +107,45 @@ main {
   width: 100%;
 }
 #project-module {
-  padding: 5px;
+  align-self:flex-start;
+  grid-row: 2/3;
+  grid-column: 1/3;
   display: grid;
-  grid-template-columns: 1fr 10px;
-  grid-template-rows: 20px 1fr;
+  grid-template-columns: 1fr;
+}
+#project-title, #home-content-title{
+  color: aliceblue;
+  padding: 35px 0px 35px 20px;
+  margin-bottom: 15px;
+  border-radius: 2px;
+  background-color: steelblue;
+}
+#remove-project-btn {
+  margin-bottom: 15px;
+  grid-column: 2/3;
+}
+#task-container {
+  grid-column: 1/2;
+  grid-row: 2/3;
 }
 .todo-item {
+  background-color: aliceblue;
   display: grid;
-  grid-template-columns: 1fr 50px;
-  grid-template-rows: 20px 20px 20px;
+  grid-template-columns: 1fr 75px;
+  grid-template-rows: 20px 1fr 20px;
 }
 #task-title {
+  font-weight: bold;
   grid-column: 1/2;
   grid-row: 1/2;
 }
 #remove-task-btn {
   grid-column: 2/3;
   grid-row: 1/2;
+}
+#remove-task-btn:hover {
+  background-color: white;
+  border-radius: 5px;
 }
 #task-description {
   grid-column: 1/2;

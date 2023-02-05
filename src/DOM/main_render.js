@@ -73,6 +73,10 @@ const removeNewTaskForm = function() {
 const pushNewTask = function(newTask) {
     projectsList[currentProject].taskList.push(newTask);
     localStorage.setItem('todoProjects', JSON.stringify(projectsList));
+    refreshContent();
+    renderLocalStorage(projectsList[currentProject]);
+    createAddTaskButton();
+    removeNewTaskForm();
 };
 
 const removeAddTaskButton = function() {
@@ -82,7 +86,6 @@ const removeAddTaskButton = function() {
 
 const addTaskForm = function() {
     const newTaskForm = document.createElement('form');
-    newTaskForm.onsubmit = 'return false'
     newTaskForm.classList.add('new-task-form');
 
     const formTitle = document.createElement('div');
@@ -122,14 +125,9 @@ const addTaskForm = function() {
     const submitNewTaskButton = document.createElement('button');
     submitNewTaskButton.id = 'new-task-submit-btn';
     submitNewTaskButton.textContent = 'Submit';
-    submitNewTaskButton.addEventListener('submit', (event) => {
-        event.preventDefault();
+    submitNewTaskButton.addEventListener('click', () => {
         pushNewTask(newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value));
-        refreshContent();
-        renderLocalStorage(projectsList[currentProject]);
-        createAddTaskButton();
-        removeNewTaskForm();
-    })
+    });
     newTaskForm.append(formTitle, formRemove, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
     mainContent.appendChild(newTaskForm);
 };
@@ -143,7 +141,8 @@ const createAddTaskButton = function() {
     addTaskIcon.setAttribute('src', '../src/icons/plus.png');
     const addTaskText = document.createElement('div');
     addTaskText.textContent = 'Add task'
-    addTaskButton.addEventListener('click', () => {
+    addTaskButton.addEventListener('click', (e) => {
+        e.preventDefault();
         addTaskForm();
         removeAddTaskButton();
     });

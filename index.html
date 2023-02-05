@@ -6,30 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do list</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Lobster&family=Oswald&display=swap" rel="stylesheet">
     <script src="main.js" defer></script>
 </head>
 <body>
-    <header class="header">To Do</header>
+    <header class="header">ToDo</header>
     <nav class="nav">
-        <div id="home-title">
-            <button id="home-btn">Home</button>
+        <div id="nav-content">
+            <div id="home-title">
+                <button id="home-btn">Home</button>
+            </div>
+            <ul>
+                <li><button id="today-btn">Due today</button></li>
+                <li><button id="week-btn">Due this week</button></li>
+            </ul>
+            <div id="all-projects">
+            <div id="nav-projects-title">Projects</div>
+            <ul id="nav-projects-parent">
+            </ul>
+                <div id="new-project-content"></div>
+            </div>
+            <button id="create-project-container">
+                <img id='plus-icon' src="../src/icons/plus.png" alt="plus Icon">
+                <div id="project-btn"> Create new project</div>
+            </button>
         </div>
-        <ul>
-            <li><button id="today-btn">Due today</button></li>
-            <li><button id="week-btn">Due this week</button></li>
-        </ul>
-        <div id="all-projects">
-        <div id="nav-projects-title">Projects</div>
-        <ul id="nav-projects-parent">
-        </ul>
-        <div id="new-project-content"></div>
-        </div>
-
-        <ul id="create-project-container">
-            <li>
-                <button id="project-btn">+ Create new project</button>
-            </li>
-        </ul>
     </nav>
     <main class="main">
         <div id="main-content"></div>

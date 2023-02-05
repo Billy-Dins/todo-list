@@ -131,16 +131,22 @@ const addTaskForm = function() {
     newTaskForm.append(formTitle, formRemove, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
     mainContent.appendChild(newTaskForm);
 };
+
 // Creates the button that creates the add task form.
 const createAddTaskButton = function() {
-    const addTask = document.createElement('button');
-    addTask.id = 'add-task-btn'
-    addTask.textContent = '+ Add task'
-    addTask.addEventListener('click', () => {
+    const addTaskButton = document.createElement('button')
+    addTaskButton.id = 'add-task-btn'
+    const addTaskIcon = document.createElement('img');
+    addTaskIcon.id = 'add-task-icon'
+    addTaskIcon.setAttribute('src', '../src/icons/plus.png');
+    const addTaskText = document.createElement('div');
+    addTaskText.textContent = 'Add task'
+    addTaskButton.addEventListener('click', () => {
         addTaskForm();
         removeAddTaskButton();
     });
-    mainContent.appendChild(addTask);
+    addTaskButton.append(addTaskIcon, addTaskText);
+    mainContent.appendChild(addTaskButton);
 };
 
 // Called by clicking a project title in the nav bar

@@ -1,8 +1,9 @@
-import { isThisWeek, parse, } from 'date-fns'
+import { isThisWeek, parse, parseISO } from 'date-fns'
 
-import { projectsList, currentProject, renderNavProjects, setProjectList } from './nav_render.js';
+import { projectsList, currentProject, renderNavProjects } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
+const main = document.querySelector('main')
 const mainContent = document.querySelector('#main-content')
 
 const renderHome = function() {
@@ -70,13 +71,12 @@ const removeNewTaskForm = function() {
 };
 
 const pushNewTask = function(newTask) {
-    setProjectList();
     projectsList[currentProject].taskList.push(newTask);
     localStorage.setItem('todoProjects', JSON.stringify(projectsList));
-    removeNewTaskForm();
     refreshContent();
     renderLocalStorage(projectsList[currentProject]);
     createAddTaskButton();
+    removeNewTaskForm();
 };
 
 const removeAddTaskButton = function() {
@@ -103,6 +103,7 @@ const addTaskForm = function() {
 
     const formTitleInput = document.createElement('input')
     formTitleInput.id = 'new-task-title-input'
+    formTitleInput.setAttribute('type', 'text')
     formTitleInput.setAttribute('placeholder', 'What to do?');
     formTitleInput.required = true
 
@@ -121,15 +122,17 @@ const addTaskForm = function() {
     const dateInput = document.createElement('input')
     dateInput.id = 'new-task-date-input'
     dateInput.setAttribute('type', 'date');
+
     const submitNewTaskButton = document.createElement('button');
     submitNewTaskButton.id = 'new-task-submit-btn';
     submitNewTaskButton.textContent = 'Submit';
+    submitNewTaskButton.type = 'submit';
     submitNewTaskButton.addEventListener('click', (e) => {
         e.preventDefault();
         pushNewTask(newTaskFactory(formTitleInput.value, descriptionInput.value, dateInput.value));
     })
     newTaskForm.append(formTitle, formRemove, formTitleInput, formDescription, descriptionInput,formDate, dateInput, submitNewTaskButton);
-    mainContent.appendChild(newTaskForm);
+    main.appendChild(newTaskForm);
 };
 
 // Creates the button that creates the add task form.
@@ -246,7 +249,8 @@ const dueThisWeek = function() {
         let project = projectsList[i];
         for (let j = 0; j < project.taskList.length; j++) {
             let taskListItem = project.taskList;
-            if (isThisWeek(parse(taskListItem[j].date, 'yyyy-mm-dd', new Date()))) {
+            console.log(isThisWeek(parseISO(taskListItem[j].date)))
+            if (isThisWeek(parseISO(taskListItem[j].date), { weekStartsOn: 1 } )) {
                 dueWeekArray.push(taskListItem[j]);
             }
         }

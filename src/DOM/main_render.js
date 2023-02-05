@@ -6,12 +6,15 @@ import { removeContent, refreshContent } from './main_remove.js';
 const mainContent = document.querySelector('#main-content')
 
 const renderHome = function() {
+    const projectHeader = document.createElement('div');
+    projectHeader.id = 'project-header'
     const projectTitle = document.createElement('div');
     projectTitle.id = 'home-content-title'
     projectTitle.textContent = 'Home';
     const taskContainer = document.createElement('div');
     taskContainer.id = 'task-container';
-    mainContent.appendChild(projectTitle);
+    projectHeader.appendChild(projectTitle);
+    mainContent.appendChild(projectHeader);
     mainContent.appendChild(taskContainer);
     for (let i = 0; i < projectsList.length; i++) {
         const project = projectsList[i];
@@ -31,22 +34,27 @@ const renderLocalStorage = function (project) {
         taskTitle.textContent = taskList[i].title
 
         if (!homeTitle) {
-            const taskRemove = document.createElement('button');
+            const taskRemoveTitle = document.createElement('div')
+            taskRemoveTitle.id = 'task-remove-title';
+            taskRemoveTitle.textContent = 'Complete?';
+
+            const taskRemove = document.createElement('input');
+            taskRemove.setAttribute('type', 'radio');
+            taskRemove.name = 'rr'
             taskRemove.id = 'remove-task-btn'
-            taskRemove.textContent = 'Complete';
             taskRemove.addEventListener('click', () => {
                 projectsList[currentProject].taskList.splice(i, 1);
                 localStorage.setItem('todoProjects', JSON.stringify(projectsList));
                 displayProject(project)
             })
-            newTask.appendChild(taskRemove)
+            newTask.append(taskRemove, taskRemoveTitle)
         };
         const taskDescription = document.createElement('div');
         taskDescription.id = 'task-description'
         taskDescription.textContent = taskList[i].description;
         const taskDate = document.createElement('div');
         taskDate.id = 'task-date'
-        taskDate.textContent = taskList[i].date;
+        taskDate.textContent = `Due: ${taskList[i].date}`;
         newTask.append(taskTitle, taskDescription, taskDate);
         taskContainer.appendChild(newTask)
     };
@@ -63,10 +71,6 @@ const removeNewTaskForm = function() {
 
 const pushNewTask = function(newTask) {
     setProjectList();
-    console.log(`projectsList is ${projectsList}`)
-    console.log(`projectsList[currentProject] is ${projectsList[currentProject]}`)
-    console.log(`projectsList[currentProject].taskList is ${projectsList[currentProject].taskList}`)
-    console.log(`newTask is ${newTask}`)
     projectsList[currentProject].taskList.push(newTask);
     localStorage.setItem('todoProjects', JSON.stringify(projectsList));
     removeNewTaskForm();
@@ -143,12 +147,16 @@ const createAddTaskButton = function() {
 const displayProject = function(project) {
     const projectModule = document.createElement('div');
     projectModule.id = 'project-module'
+
+    const projectHeader = document.createElement('div');
+    projectHeader.id = 'project-header';
+
     const projectTitle = document.createElement('div');
     projectTitle.id = 'project-title'
     projectTitle.textContent = `${project.title}`;
     const removeProjectButton = document.createElement('button');
     removeProjectButton.id = 'remove-project-btn'
-    removeProjectButton.textContent = 'X'
+    removeProjectButton.textContent = 'Remove project'
     removeProjectButton.addEventListener('click', (e) => {
         e.preventDefault();
         if (confirm("You are about to delete this project and all its tasks.")) {
@@ -165,13 +173,17 @@ const displayProject = function(project) {
     taskContainer.id = 'task-container';
     removeContent();
     projectModule.append(taskContainer);
-    mainContent.append(projectTitle, removeProjectButton, projectModule);
+    projectHeader.append(projectTitle, removeProjectButton)
+    mainContent.append(projectHeader, projectModule);
     renderLocalStorage(project);
     createAddTaskButton();
 };
 
 const renderDueDate = function(filteredArray, dueDate) {
+    const projectHeader = document.createElement('div');
+    projectHeader.id = 'project-header'
     const projectTitle = document.createElement('div');
+    projectTitle.id = 'project-title'
     projectTitle.textContent = `Due ${dueDate}`;
     const taskContainer = document.createElement('div');
     taskContainer.id = 'task-container';
@@ -190,7 +202,8 @@ const renderDueDate = function(filteredArray, dueDate) {
         newTask.append(taskTitle, taskDescription, taskDate);
         taskContainer.appendChild(newTask)
     };
-    mainContent.appendChild(projectTitle);
+    projectHeader.appendChild(projectTitle);
+    mainContent.appendChild(projectHeader);
     mainContent.appendChild(taskContainer);
 }
 

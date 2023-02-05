@@ -11,7 +11,6 @@ const homeButton = document.getElementById('home-btn');
 homeButton.addEventListener('click', () => {
     removeContent();
     renderHome();
-    console.log(currentProject);
 });
 
 const todayButton = document.getElementById('today-btn');

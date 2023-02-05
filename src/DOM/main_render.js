@@ -1,5 +1,7 @@
 import { isThisWeek, parse, parseISO } from 'date-fns'
 
+import plus from '../icons/plus.png'
+
 import { projectsList, currentProject, renderNavProjects } from './nav_render.js';
 import { removeContent, refreshContent } from './main_remove.js';
 
@@ -136,9 +138,9 @@ const addTaskForm = function() {
 const createAddTaskButton = function() {
     const addTaskButton = document.createElement('button')
     addTaskButton.id = 'add-task-btn'
-    const addTaskIcon = document.createElement('img');
+    const addTaskIcon = new Image();
     addTaskIcon.id = 'add-task-icon'
-    addTaskIcon.setAttribute('src', '../src/icons/plus.png');
+    addTaskIcon.src = plus
     const addTaskText = document.createElement('div');
     addTaskText.textContent = 'Add task'
     addTaskButton.addEventListener('click', (e) => {

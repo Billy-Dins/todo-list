@@ -1,6 +1,8 @@
 import { removeContent } from "./main_remove";
 import { displayProject } from "./main_render";
 
+import plus from '../icons/plus.png'
+
 const parentProjects = document.getElementById('nav-projects-parent')
 const newProjectContent = document.getElementById('new-project-content')
 
@@ -15,9 +17,19 @@ const setProjectList = function() {
     }
 };
 
+const createNewProjectButton = function() {
+    const newProjectButtonContainer = document.querySelector('#create-project-container')
+    const plusIcon = new Image();
+    plusIcon.src = plus;
+    const newProjectText = document.createElement('div')
+    newProjectText.textContent = 'Create new project'
+    newProjectButtonContainer.append(plusIcon, newProjectText)
+}
+
 const renderNavProjects = function() {
     setProjectList();
     removeNavProjects();
+    createNewProjectButton();
     const newProjectForm = document.getElementById('new-project-content')
     const numProjects = projectsList.length
     for (let i = 0; i < numProjects; i++) {

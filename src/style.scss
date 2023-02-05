@@ -10,7 +10,7 @@ body {
 }
 ul {
   margin-top: 0px;
-  list-style-position: inside;
+  padding-left: 5px;
 }
 li {
   list-style: none;
@@ -34,10 +34,14 @@ nav {
   padding: 5% 0 5% 5%;
   background-color: $nav-bg-color;
 }
+#nav-content {
+  position: sticky;
+  top: 0;
+}
 #home-title {
   padding-top: 5px;
   padding-bottom: 5px;
-  margin: 0px 20px 0px 20px;
+  margin: 0px 20px 0px 0px;
   border-bottom: 1px solid black
 }
 #home-btn {
@@ -48,7 +52,7 @@ nav {
 }
 #nav-projects-title {
   padding-bottom: 5px;
-  margin: 0px 20px 0px 20px;
+  margin: 0px 20px 0px 0px;
   font-size: 1rem;
   border-bottom: 1px solid black;
 }
@@ -60,7 +64,7 @@ nav {
 }
 #create-project-container {
   padding: 0px;
-  margin: 0px 20px 0px 20px;
+  margin: 0px 20px 0px 0px;
   border-bottom: 1px solid black;
 }
 #new-project-content {

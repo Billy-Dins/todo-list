@@ -11,25 +11,26 @@
 <body>
     <header class="header">To Do</header>
     <nav class="nav">
-        <div id="home-title">
-            <button id="home-btn">Home</button>
+        <div id="nav-content">
+            <div id="home-title">
+                <button id="home-btn">Home</button>
+            </div>
+            <ul>
+                <li><button id="today-btn">Due today</button></li>
+                <li><button id="week-btn">Due this week</button></li>
+            </ul>
+            <div id="all-projects">
+            <div id="nav-projects-title">Projects</div>
+            <ul id="nav-projects-parent">
+            </ul>
+            <div id="new-project-content"></div>
+            </div>
+            <ul id="create-project-container">
+                <li>
+                    <button id="project-btn">+ Create new project</button>
+                </li>
+            </ul>
         </div>
-        <ul>
-            <li><button id="today-btn">Due today</button></li>
-            <li><button id="week-btn">Due this week</button></li>
-        </ul>
-        <div id="all-projects">
-        <div id="nav-projects-title">Projects</div>
-        <ul id="nav-projects-parent">
-        </ul>
-        <div id="new-project-content"></div>
-        </div>
-
-        <ul id="create-project-container">
-            <li>
-                <button id="project-btn">+ Create new project</button>
-            </li>
-        </ul>
     </nav>
     <main class="main">
         <div id="main-content"></div>

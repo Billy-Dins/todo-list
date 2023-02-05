@@ -82,7 +82,7 @@ nav {
   font-family: $title-font;
 }
 #new-project-content {
-  padding: 5px 20px 15px 15px;
+  padding: 5px 20px 15px 0px;
 }
 #new-project-form {
   display: grid;
@@ -90,7 +90,6 @@ nav {
   grid-template-rows: 1fr 1fr;
 }
 #add-todo-title-input {
-  width: 150px;
   grid-column: 1/2;
   grid-row: 1/2;
 }
@@ -99,7 +98,6 @@ nav {
   grid-row: 1/2;
 }
 #add-todo-btn {
-  width: 158px;
   background-color: steelblue;
   border-radius: 2px;
 }

@@ -19,7 +19,12 @@ const setProjectList = function() {
 
 const createNewProjectButton = function() {
     const newProjectButtonContainer = document.querySelector('#create-project-container')
+    newProjectButtonContainer.addEventListener('click', () => {
+        const addProject = document.getElementById('project-btn');
+        createNewProject();
+    })
     const plusIcon = new Image();
+    plusIcon.id = 'plus-icon'
     plusIcon.src = plus;
     const newProjectText = document.createElement('div')
     newProjectText.textContent = 'Create new project'

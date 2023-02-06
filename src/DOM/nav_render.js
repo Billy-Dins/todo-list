@@ -20,7 +20,6 @@ const setProjectList = function() {
 const createNewProjectButton = function() {
     const newProjectButtonContainer = document.querySelector('#create-project-container')
     newProjectButtonContainer.addEventListener('click', () => {
-        const addProject = document.getElementById('project-btn');
         createNewProject();
     })
     const plusIcon = new Image();
@@ -34,7 +33,6 @@ const createNewProjectButton = function() {
 const renderNavProjects = function() {
     setProjectList();
     removeNavProjects();
-    createNewProjectButton();
     const newProjectForm = document.getElementById('new-project-content')
     const numProjects = projectsList.length
     for (let i = 0; i < numProjects; i++) {
@@ -108,4 +106,4 @@ const removeNavProjects = function() {
     }
 };
 
-export { setProjectList, renderNavProjects, createNewProject, projectsList, currentProject }
+export { setProjectList, renderNavProjects, createNewProject, projectsList, currentProject, createNewProjectButton }
